@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using HotChocolate.Configuration;
 
 namespace graphql_intro_web_core
 {
@@ -21,11 +22,11 @@ namespace graphql_intro_web_core
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BookDbContext>(options => options.UseInMemoryDatabase(databaseName: "Books"));
-            
+
             services.AddGraphQL(SchemaBuilder.New()
-                .AddQueryType<Query>()
+                .AddQueryType<QueryType>()
                 .AddMutationType<Mutation>()
-                .Create());
+                .Create()); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HotChocolate;
+using HotChocolate.Types;
 using Microsoft.EntityFrameworkCore;
 
 public class Query
@@ -10,4 +11,16 @@ public class Query
 
     //By convention GetBook() will be recorded as book in the query field.
     public Book GetBook([Service] BookDbContext dbContext, int id) => dbContext.Books.FirstOrDefault(x => x.Id == id);
+
+}
+
+public class QueryType
+    : ObjectType<Query>
+{
+    protected override void Configure(IObjectTypeDescriptor<Query> descriptor)
+    {
+        descriptor.Field(t => t.Books(default))
+            .UseFiltering()
+            .UseSorting();
+    }   
 }
